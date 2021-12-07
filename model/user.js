@@ -2,9 +2,11 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const Folder = require("./folder");
 
 const Schema = mongoose.Schema;
 const model = mongoose.model;
+const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const UserSchema = new Schema({
     firstName: {
@@ -42,6 +44,10 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    rootFolder: {
+        type: ObjectId,
+        ref: "Folder",
+    },
     activationExpire: Date,
     activationToken: String,
     resetPasswordExpire: Date,
@@ -63,7 +69,7 @@ UserSchema.pre("save", async function (next) {
 
 UserSchema.methods.genActivationToken = function () {
     const twoDays = 172800000;
-    const payload = { email: this.email, id: this._id };
+    const payload = { email: this.email, id: this._id, process: "activation" };
     const options = { expiresIn: "2d" };
 
     const activationToken = jwt.sign(payload, process.env.JWT_SECRET, options);
@@ -75,7 +81,7 @@ UserSchema.methods.genActivationToken = function () {
 };
 
 UserSchema.methods.getAuthToken = function () {
-    const payload = { email: this.email, id: this._id };
+    const payload = { email: this.email, id: this._id, process: "login" };
     const options = { expiresIn: "1d" };
 
     return jwt.sign(payload, process.env.JWT_SECRET, options);
@@ -96,6 +102,15 @@ UserSchema.methods.genResetToken = function () {
 
 UserSchema.methods.comparePassword = function (password) {
     return bcrypt.compare(password, this.password);
+};
+
+UserSchema.methods.createRoot = async function () {
+    const newFolder = await new Folder({
+        userId: this._id,
+        folderName: "root",
+    });
+    await newFolder.save();
+    this.rootFolder = newFolder._id;
 };
 
 UserSchema.statics.verifyToken = function (token) {

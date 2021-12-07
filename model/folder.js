@@ -21,9 +21,42 @@ const FolderSchema = new Schema({
     },
     parentFolder: {
         type: objectId,
-        required: true,
         ref: "Folder",
+        default: null,
     },
+    pathIds: {
+        type: [objectId],
+        ref: "Folder",
+        default: [],
+    },
+    // path: {
+    //     type: [String],
+    //     required: true,
+    //     default: [],
+    // },
+    userId: {
+        type: objectId,
+        ref: "User",
+        // required: true,
+    },
+});
+
+FolderSchema.pre("save", async function (next) {
+    if (this.isModified("parentFolder")) {
+        const parent = await Folder.findOne({
+            userId: this.userId,
+            _id: this.parentFolder,
+        });
+
+        if (parent) {
+            // this.path = [...parent.path, parent.folderName];
+            this.pathIds = [...parent.pathIds, parent._id];
+            parent.folders.push(this._id);
+            await parent.save();
+        }
+    }
+
+    next();
 });
 
 const Folder = model("Folder", FolderSchema);

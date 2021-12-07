@@ -9,6 +9,7 @@ module.exports = async function (req, res, next) {
     const user = await User.findOne({
         resetPasswordToken: resetPasswordToken,
     });
+
     if (!user) return res.status(404).send({ error: "Invalid Token" });
 
     user.password = req.body.password;

@@ -1,4 +1,5 @@
 const Joi = require("joi");
+Joi.objectId = require("joi-objectid")(Joi);
 
 const type = {
     USER: "USER",
@@ -6,6 +7,7 @@ const type = {
     LOGIN: "LOGIN",
     PASSWORD: "PASSWORD",
     EMAIL: "EMAIL",
+    FOLDER: "FOLDER",
 };
 
 const schema = {
@@ -46,6 +48,13 @@ const schema = {
     EMAIL: Joi.object({
         email: Joi.string().email().required(),
     }),
+
+    FOLDER: Joi.object({
+        folderName: Joi.string().max(255).required(),
+        folders: Joi.array().items(Joi.objectId()),
+        files: Joi.array().items(Joi.objectId()),
+        parentFolder: Joi.objectId(),
+    }),
 };
 
 exports.type = type;
@@ -55,6 +64,7 @@ exports.validateBody = (type) => {
         const option = { abortEarly: false };
 
         const { error } = schema[type].validate(req.body, option);
+
         if (error) {
             const errors = error.details.reduce((acc, { path, message }) => {
                 return { ...acc, [path.join("-")]: message };

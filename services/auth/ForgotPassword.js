@@ -10,6 +10,7 @@ const message = {
 
 module.exports = async function (req, res, next) {
     const email = req.body.email;
+
     const user = await User.findOne({
         email: email,
     });

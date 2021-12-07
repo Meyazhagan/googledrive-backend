@@ -12,9 +12,12 @@ module.exports = async function (req, res, next) {
     const payload = User.verifyToken(activationToken);
     if (!payload) return res.status(404).send({ error: "Token Expires" });
 
+    if (payload.process !== "activation")
+        return res.status(404).send({ error: "Invalid Activation Token" });
+
     user.isActivated = true;
 
     await user.save();
 
-    res.send({ message: "Successfully reset the password" });
+    res.send({ message: "User verified successfully" });
 };
