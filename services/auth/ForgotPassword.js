@@ -20,6 +20,8 @@ module.exports = async function (req, res, next) {
 
     const token = user.genResetToken();
 
+    const link = `${process.env.FRONT_END}/reset-password/${token}`;
+
     sentMail({ user, link: token, message });
 
     await user.save();

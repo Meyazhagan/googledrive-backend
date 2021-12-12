@@ -20,7 +20,9 @@ module.exports = async function (req, res, next) {
 
     await user.save();
 
-    sentMail({ user, link: token, message });
+    const link = `${process.env.FRONT_END}/verify-Activation/${token}`;
+
+    sentMail({ user, link, message });
 
     const success = { message: "Email send" };
 
