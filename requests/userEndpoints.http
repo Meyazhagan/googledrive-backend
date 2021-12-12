@@ -1,0 +1,31 @@
+POST  http://localhost:3001/api/user/register
+Content-Type: application/json
+
+{
+    "firstName":"New Name",
+    "lastName":"C N",
+    "email":"meyazhagan.ofcl@gmail.com",
+    "password":"12345",
+    "conformPassword":"12345"
+}
+
+###
+PATCH  http://localhost:3001/api/user/update/61ae2596404a22a25971d88a
+Content-Type: application/json
+
+{
+    "firstName":"Meyazhagan",
+    "lastName":"C N",
+    "address":{
+        "street":"123",
+        "city":"12"
+    }
+}
+
+###
+DELETE http://localhost:3001/api/user/delete/61b2e65ccdf9273d51415863
+
+###
+GET http://localhost:3001/api/user
+###
+GET http://localhost:3001/api/user/61b37e4f13d978b578bf1886

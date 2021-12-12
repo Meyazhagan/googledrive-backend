@@ -2,6 +2,7 @@ const User = require("../../model/user");
 const sentMail = require("../../shared/email");
 
 const message = {
+    title: process.env.APP_NAME,
     subject: "Reset Password Link",
     heading: "Click the Below Link to reset the password",
     footer: "This Link will be expries in 10 minutes",
@@ -11,13 +12,11 @@ const message = {
 module.exports = async function (req, res, next) {
     const email = req.body.email;
 
-    const user = await User.findOne({
-        email: email,
-    });
+    const user = await User.findOne({ email });
+
     if (!user) return res.status(404).send({ error: "Invalid Email ID" });
 
-    if (!user.isActivated)
-        return res.status(400).send({ error: "User is not verified" });
+    if (!user.isActivated) return res.status(400).send({ error: "User is not verified" });
 
     const token = user.genResetToken();
 
@@ -25,5 +24,6 @@ module.exports = async function (req, res, next) {
 
     await user.save();
 
-    res.send({ message: "Email send" });
+    const success = { message: "Email send" };
+    res.send({ success });
 };

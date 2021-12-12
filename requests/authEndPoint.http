@@ -1,0 +1,45 @@
+GET http://localhost:3001/api/auth/verify-activation/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1leWF6aGFnYW4ub2ZjbEBnbWFpbC5jb20iLCJpZCI6IjYxYjQ0OTNjOTIxZGJmMTAxYzU5MjFhNyIsInByb2Nlc3MiOiJhY3RpdmF0aW9uIiwiaWF0IjoxNjM5MjA1MTgwLCJleHAiOjE2MzkzNzc5ODB9.dBkRu7tZ_-8w-Af61_UWj04HnVRd8cfDN33f81rMV_k
+###
+GET http://localhost:3001/api/auth/verify-reset/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1leWF6aGFnYW4ub2ZjbEBnbWFpbC5jb20iLCJpZCI6IjYxYjQ0OTNjOTIxZGJmMTAxYzU5MjFhNyIsInByb2Nlc3MiOiJhY3RpdmF0aW9uIiwiaWF0IjoxNjM5MjA1MTgwLCJleHAiOjE2MzkzNzc5ODB9.dBkRu7tZ_-8w-Af61_UWj04HnVRd8cfDN33f81rMV_k
+
+
+###
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+    "email":"meyazhagan.ofcl@gmail.com",
+    "password": "12345"
+}
+###
+POST http://localhost:3001/api/auth/forgot-password
+Content-Type: application/json
+
+{
+    "email":"meyazhagan.ofcl@gmail.com"
+}
+###
+POST http://localhost:3001/api/auth/reset-password/430c72fef85c6de5f2b48eca1aa65eaed94989856832f01eb3b0fdd20df787c26ce5386906c2d61ae1aa6a50512f3696c919
+Content-Type: application/json
+
+{
+    "password":"123455",
+    "conformPassword":"123455"
+}
+
+###
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+    "email":"meyazhagan.ofcl@gmail.com",
+    "password": "123455"
+}
+
+###
+POST http://localhost:3001/api/auth/resend-activation
+Content-Type: application/json
+
+{
+    "email":"meyazhagan.ofcl@gmail.com"
+}

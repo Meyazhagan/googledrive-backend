@@ -51,8 +51,10 @@ const schema = {
 
     FOLDER: Joi.object({
         folderName: Joi.string().max(255).required(),
-        folders: Joi.array().items(Joi.objectId()),
-        files: Joi.array().items(Joi.objectId()),
+        parentFolder: Joi.objectId(),
+    }),
+    FILE: Joi.object({
+        FileName: Joi.string().max(255).required(),
         parentFolder: Joi.objectId(),
     }),
 };
@@ -69,6 +71,7 @@ exports.validateBody = (type) => {
             const errors = error.details.reduce((acc, { path, message }) => {
                 return { ...acc, [path.join("-")]: message };
             }, {});
+
             return res.status(400).send({ errors });
         }
 

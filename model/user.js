@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+
 const Folder = require("./folder");
+const File = require("./file");
 
 const Schema = mongoose.Schema;
 const model = mongoose.model;
@@ -48,15 +50,15 @@ const UserSchema = new Schema({
         type: ObjectId,
         ref: "Folder",
     },
+    storageLimit: {
+        type: Number,
+        default: 100 * 1024 * 1024,
+    },
     activationExpire: Date,
     activationToken: String,
     resetPasswordExpire: Date,
     resetPasswordToken: String,
 });
-
-// userSchema.virtual("payload").get(() => {
-//     return { email: this.email, id: this._id };
-// });
 
 UserSchema.pre("save", async function (next) {
     if (this.isModified("password")) {
@@ -68,7 +70,7 @@ UserSchema.pre("save", async function (next) {
 });
 
 UserSchema.methods.genActivationToken = function () {
-    const twoDays = 172800000;
+    const twoDays = 172800000; // 2 * 24 hr * 60 min * 60 sec * 1000 ms
     const payload = { email: this.email, id: this._id, process: "activation" };
     const options = { expiresIn: "2d" };
 
@@ -81,7 +83,12 @@ UserSchema.methods.genActivationToken = function () {
 };
 
 UserSchema.methods.getAuthToken = function () {
-    const payload = { email: this.email, id: this._id, process: "login" };
+    const payload = {
+        email: this.email,
+        id: this._id,
+        process: "login",
+        rootFolder: this.rootFolder,
+    };
     const options = { expiresIn: "1d" };
 
     return jwt.sign(payload, process.env.JWT_SECRET, options);
@@ -91,10 +98,7 @@ UserSchema.methods.genResetToken = function () {
     const tenMinutes = 10 * (60 * 1000);
     const resetToken = crypto.randomBytes(50).toString("hex");
 
-    this.resetPasswordToken = crypto
-        .createHash("sha256")
-        .update(resetToken)
-        .digest("hex");
+    this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
 
     this.resetPasswordExpire = Date.now() + tenMinutes;
     return resetToken;
@@ -118,7 +122,6 @@ UserSchema.statics.verifyToken = function (token) {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
         return payload;
     } catch (err) {
-        console.log(err);
         return null;
     }
 };

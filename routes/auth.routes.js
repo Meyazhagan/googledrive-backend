@@ -7,16 +7,14 @@ const resetPassword = require("../services/auth/ResetPassword");
 const forgotPassword = require("../services/auth/ForgotPassword");
 const resendActivation = require("../services/auth/ResendActivation");
 const accountActivation = require("../services/auth/AccountActivation");
+const ResetTokenVerification = require("../services/auth/ResetTokenVerification");
 
 router.post("/login", validateBody(type.LOGIN), loginAuth);
 router.post("/forgot-password", validateBody(type.EMAIL), forgotPassword);
 router.post("/resend-activation", validateBody(type.EMAIL), resendActivation);
-router.post(
-    "/reset-password/:resetToken",
-    validateBody(type.PASSWORD),
-    resetPassword
-);
+router.post("/reset-password/:resetToken", validateBody(type.PASSWORD), resetPassword);
 
 router.get("/verify-activation/:activationToken", accountActivation);
+router.get("/verify-reset/:resetToken", ResetTokenVerification);
 
 module.exports = router;

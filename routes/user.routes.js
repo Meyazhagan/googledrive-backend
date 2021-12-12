@@ -5,9 +5,13 @@ const { validateBody, type } = require("../helper/joiSchema");
 const updateUser = require("../services/user/UpdateUser");
 const deleteUser = require("../services/user/DeleteUser");
 const registerUser = require("../services/user/RegisterUser");
+const getAllUser = require("../services/user/getAllUser");
+const getUser = require("../services/user/getUser");
 
 router.post("/register", validateBody(type.USER), registerUser);
 router.patch("/update/:id", validateBody(type.UPDATE_USER), updateUser);
 router.delete("/delete/:id", deleteUser);
+router.get("/", getAllUser);
+router.get("/:id", getUser);
 
 module.exports = router;

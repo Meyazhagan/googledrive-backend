@@ -2,7 +2,7 @@ const nodemailer = require("nodemailer");
 
 const construct_mail = (user, link, message) => {
     return {
-        from: `Google Drive Clone <${process.env.EMAIL_USERNAME}>`,
+        from: `${message.title} <${process.env.EMAIL_USERNAME}>`,
         to: user.email,
         cc: "",
         subject: message.subject,

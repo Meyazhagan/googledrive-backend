@@ -3,11 +3,8 @@ const User = require("../../model/user");
 module.exports = async function (req, res, next) {
     const activationToken = req.params.activationToken;
 
-    const user = await User.findOne({
-        activationToken: activationToken,
-    });
-    if (!user)
-        return res.status(404).send({ error: "Invalid Activation Token" });
+    const user = await User.findOne({ activationToken });
+    if (!user) return res.status(404).send({ error: "Invalid Activation Token" });
 
     const payload = User.verifyToken(activationToken);
     if (!payload) return res.status(404).send({ error: "Token Expires" });
@@ -16,6 +13,8 @@ module.exports = async function (req, res, next) {
         return res.status(404).send({ error: "Invalid Activation Token" });
 
     user.isActivated = true;
+    user.activationToken = undefined;
+    user.activationExpire = undefined;
 
     await user.save();
 

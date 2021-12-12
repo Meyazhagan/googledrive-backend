@@ -5,8 +5,7 @@ module.exports = async function (req, res, next) {
     const userId = req.user._id;
     const folderId = req.params.folderId;
 
-    if (!isValidObjectId(folderId))
-        return res.status(400).send({ error: "Invalid folder Id" });
+    if (!isValidObjectId(folderId)) return res.status(400).send({ error: "Invalid folder Id" });
 
     const current = await Folder.findOne({
         userId: userId,

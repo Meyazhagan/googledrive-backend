@@ -1,15 +1,16 @@
+const { isValidObjectId } = require("mongoose");
 const User = require("../../model/user");
 
 module.exports = async function (req, res) {
-    const id = req.params.id;
+    const _id = req.params.id;
 
-    const user = await User.findOneAndDelete({ _id: id });
+    if (!isValidObjectId(_id)) return res.status(400).send({ error: "The given Id is Invalid" });
 
-    if (!user)
-        return res.status(404).send({ error: "No User Found for given ID" });
+    const user = await User.findOneAndDelete({ _id });
 
-    res.send({
-        message: "Deleted the User",
-        user: {},
-    });
+    if (!user) return res.status(404).send({ error: "No User Found for given ID" });
+
+    const success = { message: "Deleted the User", user: {} };
+
+    res.send({ success });
 };

@@ -4,6 +4,8 @@ const Schema = mongoose.Schema;
 const model = mongoose.model;
 const objectId = mongoose.SchemaTypes.ObjectId;
 
+const User = require("./user");
+
 const FolderSchema = new Schema({
     folderName: {
         type: String,
@@ -37,7 +39,7 @@ const FolderSchema = new Schema({
     userId: {
         type: objectId,
         ref: "User",
-        // required: true,
+        required: true,
     },
 });
 
@@ -53,6 +55,9 @@ FolderSchema.pre("save", async function (next) {
             this.pathIds = [...parent.pathIds, parent._id];
             parent.folders.push(this._id);
             await parent.save();
+        } else {
+            // setting message and status code
+            throw new Error(["Invalid Parent Folder", 400]);
         }
     }
 

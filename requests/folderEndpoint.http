@@ -1,0 +1,33 @@
+GET http://localhost:3001/api/folders/61b4493c921dbf101c5921a8
+auth_token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1leWF6aGFnYW4ub2ZjbEBnbWFpbC5jb20iLCJpZCI6IjYxYjQ0OTNjOTIxZGJmMTAxYzU5MjFhNyIsInByb2Nlc3MiOiJsb2dpbiIsImlhdCI6MTYzOTIwNTI5MywiZXhwIjoxNjM5MjkxNjkzfQ.ov_bcwdlLsTQVdvcteKDs2Cy5RwTfJfFTy5QmwUb3pE
+
+###
+GET http://localhost:3001/api/folders/subfolder/61b32e34692202210e0a844e
+auth_token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1leWF6aGFnYW4ub2ZjbEBnbWFpbC5jb20iLCJpZCI6IjYxYjMyZTM0NjkyMjAyMjEwZTBhODQ0ZCIsInByb2Nlc3MiOiJsb2dpbiIsImlhdCI6MTYzOTEzMzAxOSwiZXhwIjoxNjM5MjE5NDE5fQ.T6KqmXuYkVigupOOBDSPf_EMEe_T0nQ-dZ-cQsbTBkY
+
+###
+
+POST http://localhost:3001/api/folders/
+auth_token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1leWF6aGFnYW4ub2ZjbEBnbWFpbC5jb20iLCJpZCI6IjYxYjQ0OTNjOTIxZGJmMTAxYzU5MjFhNyIsInByb2Nlc3MiOiJsb2dpbiIsImlhdCI6MTYzOTIwNTI5MywiZXhwIjoxNjM5MjkxNjkzfQ.ov_bcwdlLsTQVdvcteKDs2Cy5RwTfJfFTy5QmwUb3pE
+Content-Type: application/json
+
+{
+    "folderName": "Folders 2",
+    "parentFolder":"61b45b8f5998ea8f541102f5"
+}
+
+###
+
+PATCH http://localhost:3001/api/folders/61b32f9a68f52f9b7dbc4bb9
+auth_token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1leWF6aGFnYW4ub2ZjbEBnbWFpbC5jb20iLCJpZCI6IjYxYjMyZTM0NjkyMjAyMjEwZTBhODQ0ZCIsInByb2Nlc3MiOiJsb2dpbiIsImlhdCI6MTYzOTEzMzAxOSwiZXhwIjoxNjM5MjE5NDE5fQ.T6KqmXuYkVigupOOBDSPf_EMEe_T0nQ-dZ-cQsbTBkY
+Content-Type: application/json
+
+{
+    "folderName": "Folder 1 edited",
+    "parentFolder":"61b32f9a68f52f9b7dbc4bb9"
+}
+
+###
+
+DELETE  http://localhost:3001/api/folders/61b32e34692202210e0a844
+auth_token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1leWF6aGFnYW4ub2ZjbEBnbWFpbC5jb20iLCJpZCI6IjYxYjMyZTM0NjkyMjAyMjEwZTBhODQ0ZCIsInByb2Nlc3MiOiJsb2dpbiIsImlhdCI6MTYzOTEzMzAxOSwiZXhwIjoxNjM5MjE5NDE5fQ.T6KqmXuYkVigupOOBDSPf_EMEe_T0nQ-dZ-cQsbTBkY

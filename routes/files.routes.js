@@ -1,15 +1,24 @@
 const router = require("express").Router();
 
+const getFile = require("../services/files/getFile");
+const getObject = require("../services/files/getObject");
 const createFile = require("../services/files/CreateFile");
 const updateFile = require("../services/files/UpdateFile");
 const deleteFile = require("../services/files/DeleteFile");
 const getAllFiles = require("../services/files/GetAllFiles");
 const getAllFilesInFolder = require("../services/files/GetFilesInFolder");
 
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+
 router.get("/", getAllFiles);
 router.get("/:folderId", getAllFilesInFolder);
 
-router.post("/", createFile);
+router.get("/:id", getFile);
+router.get("/object/:key", getObject);
+
+router.post("/", upload.single("file_upload"), createFile);
+
 router.patch("/:id", updateFile);
 router.delete("/:id", deleteFile);
 
