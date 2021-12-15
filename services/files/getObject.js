@@ -1,3 +1,4 @@
+const File = require("../../model/file");
 const { getFileStream } = require("../../shared/s3");
 
 module.exports = async function (req, res, next) {
