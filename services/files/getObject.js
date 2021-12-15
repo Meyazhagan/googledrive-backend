@@ -2,7 +2,7 @@ const File = require("../../model/file");
 const { getFileStream } = require("../../shared/s3");
 
 module.exports = async function (req, res, next) {
-    console.log(req.params);
+    const userId = req.user._id;
     const key = req.params.key;
 
     const file = await File.find({
