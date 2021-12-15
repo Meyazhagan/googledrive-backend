@@ -12,7 +12,7 @@ const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 
 router.get("/", getAllFiles);
-router.get("/:folderId", getAllFilesInFolder);
+router.get("/subfile/:folderId", getAllFilesInFolder);
 
 router.get("/:id", getFile);
 router.get("/object/:key", getObject);

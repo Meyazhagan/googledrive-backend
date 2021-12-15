@@ -13,5 +13,7 @@ module.exports = async function (req, res, next) {
         _id: folderId,
     }).populate("files", fileName);
 
+    if (!folder) return res.status(400).send({ error: "Invalid folder Id" });
+
     res.send({ files: folder.files });
 };
