@@ -22,7 +22,7 @@ module.exports = async function (req, res, next) {
 
     const link = `${process.env.FRONT_END}/reset-password/${token}`;
 
-    sentMail({ user, link: token, message });
+    sentMail({ user, link, message });
 
     await user.save();
 
