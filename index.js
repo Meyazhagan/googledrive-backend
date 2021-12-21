@@ -12,6 +12,7 @@ const folderRouter = require("./routes/folders.routes");
 
 const authUser = require("./middleware/authUser");
 const errors = require("./middleware/errors");
+const getObject = require("./services/files/getObject");
 
 mongooseConnect();
 const app = express();
@@ -26,6 +27,8 @@ app.use((req, res, next) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+
+app.get("/api/object/:key", getObject);
 
 app.use("/api/files", authUser, fileRouter);
 app.use("/api/folders", authUser, folderRouter);

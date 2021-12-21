@@ -10,7 +10,7 @@ module.exports = async function (req, res, next) {
     })
         .populate("pathIds", "folderName")
         .populate("folders", "folderName")
-        .populate("files", "fileName");
+        .populate("files", "fileName key");
 
     res.status(200).send({ folder });
 };
